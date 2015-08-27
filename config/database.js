@@ -2,7 +2,7 @@
 
 var config = {
   development: {
-    uri: 'mongodb://localhost:27017/todo-api',
+    uri: 'mongodb://127.0.0.1:27017/todo-api',
     options: {
       user: '',
       pass: ''
@@ -10,7 +10,7 @@ var config = {
   },
 
   test: {
-    uri: 'mongodb://localhost:27017/todo-api-test',
+    uri: 'mongodb://127.0.0.1:27017/todo-api-test',
     options: {
       user: '',
       pass: ''
