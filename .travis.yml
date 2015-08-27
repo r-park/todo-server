@@ -2,14 +2,13 @@ language: node_js
 
 node_js: 0.12
 
-install:
-  - npm install --loglevel silent
+services: mongodb
 
-script:
-  - npm test
+install: npm install --loglevel silent
 
-after_success:
-  - npm run coveralls
+script: npm test
+
+after_success: npm run coveralls
 
 notifications:
   email:

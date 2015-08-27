@@ -1,7 +1,9 @@
-var gulp    = require('gulp'),
-    eslint  = require('gulp-eslint'),
-    mocha   = require('gulp-mocha'),
-    nodemon = require('gulp-nodemon');
+var coveralls = require('gulp-coveralls'),
+    gulp      = require('gulp'),
+    eslint    = require('gulp-eslint'),
+    istanbul  = require('gulp-istanbul'),
+    mocha     = require('gulp-mocha'),
+    nodemon   = require('gulp-nodemon');
 
 
 /*=========================================================
@@ -27,7 +29,7 @@ var paths = {
     ]
   },
 
-  test: 'test/**/*.js'
+  test: 'test/**/*.test.js'
 };
 
 
@@ -35,8 +37,22 @@ var paths = {
   CONFIG
 ---------------------------------------------------------*/
 var config = {
+  coveralls: {
+    src: 'tmp/coverage/**/lcov.info'
+  },
+
   eslint: {
     src: paths.src.js
+  },
+
+  istanbul: {
+    options: {
+      includeUntested: false
+    },
+    reports: {
+      dir: 'tmp/coverage',
+      reporters: ['lcov']
+    }
   },
 
   mocha: {
@@ -52,6 +68,13 @@ var config = {
 /*=========================================================
   TASKS
 ---------------------------------------------------------*/
+gulp.task('coveralls', function(){
+  return gulp
+    .src(config.coveralls.src)
+    .pipe(coveralls())
+});
+
+
 gulp.task('lint', function(){
   return gulp
     .src(config.eslint.src)
@@ -73,7 +96,23 @@ gulp.task('test', function(){
     .src(paths.test, {read: false})
     .pipe(mocha(config.mocha))
     .on('error', function(error){
-      console.log('has error');
+      console.log(error);
+    });
+});
+
+
+gulp.task('test.cov', function(done){
+  process.env.NODE_ENV = ENV_TEST;
+  gulp
+    .src(paths.src.js)
+    .pipe(istanbul(config.istanbul.options))
+    .pipe(istanbul.hookRequire())
+    .on('finish', function(){
+      gulp
+        .src(paths.test, {read: false})
+        .pipe(mocha(config.mocha))
+        .pipe(istanbul.writeReports(config.istanbul.reports))
+        .on('end', done);
     });
 });
 

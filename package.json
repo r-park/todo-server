@@ -12,8 +12,8 @@
   "main": "index.js",
 
   "scripts": {
-    "coveralls": "gulp coveralls && rm -rf ./tmp",
-    "test": "gulp test"
+    "coveralls": "gulp coveralls",
+    "test": "gulp test.cov"
   },
 
   "dependencies": {
@@ -30,7 +30,9 @@
   "devDependencies": {
     "chai": "^3.2.0",
     "gulp": "gulpjs/gulp.git#4.0",
+    "gulp-coveralls": "^0.1.4",
     "gulp-eslint": "^1.0.0",
+    "gulp-istanbul": "^0.10.0",
     "gulp-mocha": "^2.1.3",
     "gulp-nodemon": "^2.0.4",
     "mocha": "^2.2.5",
