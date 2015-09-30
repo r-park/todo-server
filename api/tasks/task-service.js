@@ -6,6 +6,7 @@ var Task = require('./task');
 module.exports = {
 
   createTask: function(attrs) {
+    attrs = ensureJSON(attrs);
     var task = new Task(attrs);
     return task.save();
   },
@@ -31,3 +32,9 @@ module.exports = {
   }
 
 };
+
+
+function ensureJSON(data) {
+  if (typeof data === 'string') data = JSON.parse(data);
+  return data;
+}
