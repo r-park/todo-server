@@ -29,8 +29,8 @@ describe('Tasks: Task model', function(){
     it('should pass when valid attributes are provided', function(done){
       var task = new Task({completed: false, title: 'pass'});
       task.save()
-        .then(function(task){
-          expect(task).to.exist;
+        .then(function(_task){
+          expect(_task).to.exist;
           done();
         });
     });
@@ -58,6 +58,29 @@ describe('Tasks: Task model', function(){
       task.save()
         .catch(function(error){
           expect(error).to.exist;
+          done();
+        });
+    });
+  });
+
+
+  describe('#update', function(){
+    it('should only save keys that are defined in schema', function(done){
+      task.update({title: 'changed', foo: 'foo'})
+        .then(function(_task){
+          Task.findById(_task.id, function(error, doc){
+            expect(doc.title).to.equal('changed');
+            expect(doc.foo).not.to.exist;
+            done();
+          });
+        });
+    });
+
+    it('should fulfill promise with updated task', function(done){
+      task.update({title: 'changed', foo: 'foo'})
+        .then(function(_task){
+          expect(_task.title).to.equal('changed');
+          expect(_task.foo).not.to.exist;
           done();
         });
     });
