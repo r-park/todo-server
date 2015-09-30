@@ -117,12 +117,25 @@ describe('Tasks: Task service', function(){
 
 
   describe('#updateTask', function(){
+    it('should only save keys that are defined in schema', function(done){
+      taskService
+        .updateTask(task._id, {foo: 'foo'})
+        .then(function(){
+          return taskService.findTask(task._id);
+        })
+        .then(function(_task){
+          expect(_task.foo).not.to.exist;
+          done();
+        });
+    });
+
     it('should fulfill promise with updated task', function(done){
       taskService
-        .updateTask(task._id, {title: 'foo'})
+        .updateTask(task._id, {title: 'changed', foo: 'foo'})
         .then(function(_task){
           expect(_task.id).to.equal(task.id);
-          expect(_task.title).to.equal('foo');
+          expect(_task.title).to.equal('changed');
+          expect(_task.foo).not.to.exist;
           done();
         });
     });
@@ -145,5 +158,4 @@ describe('Tasks: Task service', function(){
         });
     });
   });
-
 });

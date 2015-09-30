@@ -1,6 +1,7 @@
 'use strict';
 
 var mongoose = require('mongoose');
+var _ = require('lodash');
 
 
 var TaskSchema = new mongoose.Schema({
@@ -14,7 +15,10 @@ var TaskSchema = new mongoose.Schema({
     trim: true,
     type: String
   }
-});
+}, {strict: true});
+
+
+var validKeys = Object.keys(TaskSchema.paths);
 
 
 TaskSchema.virtual('links').get(function(){
@@ -31,6 +35,12 @@ TaskSchema.set('toJSON', {
 
   versionKey: false,
   virtuals: true
+});
+
+
+TaskSchema.method('update', function(attrs){
+  _.assign(this, _.pick(attrs, validKeys));
+  return this.save();
 });
 
 

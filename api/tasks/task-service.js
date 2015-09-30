@@ -23,10 +23,10 @@ module.exports = {
   },
 
   updateTask: function(id, attrs) {
-    return Task.findByIdAndUpdate(id, attrs, {runValidators: true})
+    return Task.findById(id)
       .exec()
-      .then(function(){
-        return Task.findById(id).exec();
+      .then(function(task){
+        return task.update(attrs);
       });
   }
 
