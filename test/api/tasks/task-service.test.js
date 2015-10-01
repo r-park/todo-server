@@ -44,6 +44,17 @@ describe('Tasks: Task service', function(){
           done();
         });
     });
+
+    it('should accept stringified JSON attributes', function(done){
+      var attrs = {completed: false, title: 'task'};
+
+      taskService
+        .createTask(JSON.stringify(attrs))
+        .then(function(task){
+          expect(task.title).to.equal('task');
+          done();
+        });
+    });
   });
 
 
