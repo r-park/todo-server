@@ -27,6 +27,7 @@ module.exports = {
     return Task.findById(id)
       .exec()
       .then(function(task){
+        attrs = ensureJSON(attrs);
         return task.update(attrs);
       });
   }

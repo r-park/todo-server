@@ -30,8 +30,8 @@ describe('Tasks: Task service', function(){
     it('should fulfill promise with newly-created task', function(done){
       taskService
         .createTask({completed: false, title: 'task'})
-        .then(function(task){
-          expect(task.title).to.equal('task');
+        .then(function(_task){
+          expect(_task.title).to.equal('task');
           done();
         });
     });
@@ -50,8 +50,8 @@ describe('Tasks: Task service', function(){
 
       taskService
         .createTask(JSON.stringify(attrs))
-        .then(function(task){
-          expect(task.title).to.equal('task');
+        .then(function(_task){
+          expect(_task.title).to.equal('task');
           done();
         });
     });
@@ -63,8 +63,8 @@ describe('Tasks: Task service', function(){
       taskService
         .deleteTask(task._id)
         .then(function(){
-          Task.findById(task._id, function(error, task){
-            expect(task).to.not.exist;
+          Task.findById(task._id, function(error, _task){
+            expect(_task).to.not.exist;
             done();
           });
         });
@@ -106,9 +106,9 @@ describe('Tasks: Task service', function(){
     it('should fulfill promise with array of all tasks found', function(done){
       taskService
         .findAllTasks()
-        .then(function(tasks){
-          expect(Array.isArray(tasks)).to.equal(true);
-          expect(tasks.length).to.equal(1);
+        .then(function(_task){
+          expect(Array.isArray(_task)).to.equal(true);
+          expect(_task.length).to.equal(1);
           done();
         });
     });
@@ -117,9 +117,9 @@ describe('Tasks: Task service', function(){
       Task.remove({}, function(){
         taskService
           .findAllTasks()
-          .then(function(tasks){
-            expect(Array.isArray(tasks)).to.equal(true);
-            expect(tasks.length).to.equal(0);
+          .then(function(_task){
+            expect(Array.isArray(_task)).to.equal(true);
+            expect(_task.length).to.equal(0);
             done();
           });
       });
@@ -165,6 +165,15 @@ describe('Tasks: Task service', function(){
         .updateTask(task._id, {title: ''})
         .catch(function(error){
           expect(error).to.exist;
+          done();
+        });
+    });
+
+    it('should accept stringified JSON attributes', function(done){
+      taskService
+        .updateTask(task._id, JSON.stringify({title: 'changed'}))
+        .then(function(_task){
+          expect(_task.title).to.equal('changed');
           done();
         });
     });
