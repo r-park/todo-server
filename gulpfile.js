@@ -82,7 +82,7 @@ gulp.task('lint', function(){
 });
 
 
-gulp.task('server', function(done){
+gulp.task('serve', function(done){
   nodemon(config.nodemon)
     .on('start', done);
 });
