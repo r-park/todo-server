@@ -69,15 +69,13 @@ var config = {
   TASKS
 ---------------------------------------------------------*/
 gulp.task('coveralls', function(){
-  return gulp
-    .src(config.coveralls.src)
+  return gulp.src(config.coveralls.src)
     .pipe(coveralls())
 });
 
 
 gulp.task('lint', function(){
-  return gulp
-    .src(config.eslint.src)
+  return gulp.src(config.eslint.src)
     .pipe(eslint())
     .pipe(eslint.format())
     .pipe(eslint.failAfterError());
@@ -92,8 +90,8 @@ gulp.task('server', function(done){
 
 gulp.task('test', function(){
   process.env.NODE_ENV = ENV_TEST;
-  return gulp
-    .src(paths.test, {read: false})
+
+  return gulp.src(paths.test, {read: false})
     .pipe(mocha(config.mocha))
     .on('error', function(error){
       console.log(error);
@@ -103,8 +101,8 @@ gulp.task('test', function(){
 
 gulp.task('test.cov', function(done){
   process.env.NODE_ENV = ENV_TEST;
-  gulp
-    .src(paths.src.js)
+
+  gulp.src(paths.src.js)
     .pipe(istanbul(config.istanbul.options))
     .pipe(istanbul.hookRequire())
     .on('finish', function(){
