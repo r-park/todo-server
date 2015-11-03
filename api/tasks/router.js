@@ -17,8 +17,7 @@ router.use(function(req, res, next){
 
 
 router.post('/tasks', function(req, res){
-  taskService
-    .createTask(req.body)
+  taskService.createTask(req.body)
     .then(function(task){
       res.status(201).json(task);
     })
@@ -30,8 +29,7 @@ router.post('/tasks', function(req, res){
 
 
 router.get('/tasks', function(req, res){
-  taskService
-    .findAllTasks()
+  taskService.findAllTasks()
     .then(function(tasks){
       res.status(200).json(tasks);
     })
@@ -43,8 +41,7 @@ router.get('/tasks', function(req, res){
 
 
 router.get('/tasks/:id', function(req, res){
-  taskService
-    .findTask(req.params.id)
+  taskService.findTask(req.params.id)
     .then(function(task){
       res.status(200).json(task);
     })
@@ -56,8 +53,7 @@ router.get('/tasks/:id', function(req, res){
 
 
 router.put('/tasks/:id', function(req, res){
-  taskService
-    .updateTask(req.params.id, req.body)
+  taskService.updateTask(req.params.id, req.body)
     .then(function(task){
       res.status(200).json(task);
     })
@@ -69,10 +65,9 @@ router.put('/tasks/:id', function(req, res){
 
 
 router.delete('/tasks/:id', function(req, res){
-  taskService
-    .deleteTask(req.params.id)
-    .then(function(){
-      res.status(204).end();
+  taskService.deleteTask(req.params.id)
+    .then(function(task){
+      res.status(200).json(task);
     })
     .catch(function(error){
       logger.error('DELETE /tasks/' + req.params.id, ':', error);

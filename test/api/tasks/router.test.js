@@ -280,7 +280,7 @@ describe('Tasks: router', function(){
       it('should return status 204 if deletion succeeds', function(done){
         request
           .del(url)
-          .expect(204, done);
+          .expect(200, done);
       });
 
       it('should return status 400 if deletion fails', function(done){
@@ -294,21 +294,21 @@ describe('Tasks: router', function(){
       it('should include `Access-Control-Allow-Origin`', function(done){
         request
           .del(url)
-          .expect(204)
+          .expect(200)
           .expect('Access-Control-Allow-Origin', '*', done);
       });
 
       it('should include `Access-Control-Allow-Methods`', function(done){
         request
           .del(url)
-          .expect(204)
+          .expect(200)
           .expect('Access-Control-Allow-Methods', 'GET, DELETE, OPTIONS, POST, PUT', done);
       });
 
       it('should include `Access-Control-Allow-Headers`', function(done){
         request
           .del(url)
-          .expect(204)
+          .expect(200)
           .expect('Access-Control-Allow-Headers', 'Accept, Content-Type, Origin, X-Requested-With', done);
       });
     });

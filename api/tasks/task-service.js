@@ -12,7 +12,11 @@ module.exports = {
   },
 
   deleteTask: function(id) {
-    return Task.findByIdAndRemove(id).exec();
+    return Task.findById(id)
+      .exec()
+      .then(function(task){
+        return task.remove();
+      });
   },
 
   findTask: function(id) {

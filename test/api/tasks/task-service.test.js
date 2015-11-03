@@ -70,6 +70,15 @@ describe('Tasks: Task service', function(){
         });
     });
 
+    it('should fulfill promise with deleted task', function(done){
+      taskService
+        .deleteTask(task._id)
+        .then(function(_task){
+          expect(_task._id + '').to.equal(task.id + '');
+          done();
+        });
+    });
+
     it('should reject promise if task is not found', function(done){
       taskService
         .deleteTask(123)
